@@ -1,0 +1,85 @@
+(defcfg
+  process-unmapped-keys yes
+  linux-continue-if-no-devs-found yes
+)
+
+(defsrc
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \ grv
+  ralt q    w    e    r    t    y    u    i    o    p    [    ]    bspc
+  lsft a    s    d    f    g    h    j    k    l    ;    '     ret
+  lctl z    x    c    v    b    n    m    ,    .    /   tab pause
+       lmet lalt             spc               menu rmet
+)
+
+(defalias
+  ;; COMBO 
+  sret (unmod lsft ret)
+  palette f18
+  ;; LAYER - TOGGLE
+  layer1 (tap-hold-press 200 200 spc (layer-while-held layer_1))
+  layer2 (layer-toggle layer_2)
+
+  ;; LAYER - MULTI HOLD
+  at_layer (multi ralt (macro 15 tab) (layer-while-held ralt_tab_layer))
+  st_layer (multi lsft (macro 15 tab) (layer-while-held lsft_tab_layer))
+  ct_layer (multi lctl (macro 15 tab) (layer-while-held lctl_tab_layer))
+
+  ;; UTIL - TD
+  ralt_td (tap-dance 250 (ralt @at_layer))
+  lsft_td (tap-dance 250 ((tap-hold-press 200 200 ralt lsft) @st_layer))
+  lctl_td (tap-dance 250 (lctl @ct_layer))
+  
+  menu_td (tap-dance 200 (menu @palette))
+  esc_td  (tap-dance 200 (esc A-f4))
+                
+  ;; LAYER - TAP
+  ret_sft (tap-hold 150 150 ret rsft)
+)
+
+(deflayer base
+  @esc_td 1    2    3    4    5    6    7    8    9    0    -    =    \ grv
+  @ralt_td q    w    e    r    t    y    u    i    o    p    [    ]   tab
+  @lsft_td a    s    d    f    g    h    j    k    l    ;    '    bspc
+  @lctl_td z    x    c    v    b    n    m    ,    .    /   @ret_sft  @layer2
+       lmet lalt             @layer1      @menu_td rmet
+)
+
+(deflayer layer_1
+  prtsc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  f13  f14 
+  XX  XX   up   XX   XX   XX   XX   XX   XX   XX   up   XX   XX  tab
+  XX  left down right  XX  XX  XX  XX   home left down rght bspc
+  XX  XX  XX  XX  XX  XX  XX  XX  end  pgup pgdn  S-ret del
+      M-f18  S-f18          _            C-f18   A-f18
+)
+
+(deflayer layer_2
+  C-A-S-M-grv C-A-S-M-1 C-A-S-M-2 C-A-S-M-3 C-A-S-M-4 C-A-S-M-5 C-A-S-M-6 C-A-S-M-7 C-A-S-M-8 C-A-S-M-9 C-A-S-M-0 C-A-S-M-- C-A-S-M-= C-A-S-M-\ prtsc
+  _    C-A-S-M-q C-A-S-M-w C-A-S-M-e C-A-S-M-r C-A-S-M-t C-A-S-M-y C-A-S-M-u S-f16 C-A-S-M-o C-A-S-M-p S-f17 C-f17 A-f17
+  _    C-A-S-M-a C-A-S-M-s C-A-S-M-d C-A-S-M-f C-A-S-M-g C-A-S-M-h C-A-S-M-j C-A-S-M-k C-A-S-M-l C-A-f18 C-S-f18 M-f18
+  _    C-A-S-M-z C-A-S-M-x C-A-S-M-c C-A-S-M-v C-A-S-M-b C-A-S-M-n C-A-S-M-m C-A-S-M-, C-A-S-M-. C-A-S-M-/ A-f18 _
+       C-A-S-M-f13 C-A-S-M-f14 XX S-f18 C-f18
+)
+ 
+(deflayer ralt_tab_layer
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _   C-w   up   _    _    _    _    _    _    _    _    _    _    _
+  _  left  down right _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+       _    _                _                 _    _
+)
+
+(deflayer lsft_tab_layer
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _   C-w   up   _    _    _    _    _    _    _    _    _    _    _
+  _  left  down right _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+       _    _                _                 _    _
+)
+
+(deflayer lctl_tab_layer
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _   C-w   up   _    _    _    _    _    _    _    _    _    _    _
+  _  left  down right _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+       _    _                _                 _    _
+)

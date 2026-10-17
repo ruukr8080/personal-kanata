@@ -1,0 +1,9 @@
+(defcfg process-unmapped-keys yes)
+(defsrc w a s d)
+(defalias
+  mm_u (movemouse-up    5 8)
+  mm_d (movemouse-down  5 8)
+  mm_l (movemouse-left  5 8)
+  mm_r (movemouse-right 5 8)
+)
+(deflayer base @mm_u @mm_l @mm_d @mm_r)

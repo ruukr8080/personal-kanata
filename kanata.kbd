@@ -1,0 +1,101 @@
+(defcfg
+  process-unmapped-keys yes
+  linux-continue-if-no-devs-found yes
+)
+
+(defsrc
+  esc f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  f13
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc ins
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \ home
+  caps  a    s    d    f    g    h    j    k    l    ;    '    ret end 
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft  up  del
+  lctl  lmet lalt           spc            ralt pause rctl left down rght
+)
+
+(defalias
+
+;; TD
+
+  lsft-layer (multi lctl (macro 15 tab) (layer-while-held doubleLctl))
+;;  
+  lctl-doubleLctl (tap-dance 250 (lctl @lsft-layer))
+  esc-close (tap-dance 200 (esc A-w))
+  lmet-util-close (tap-dance 200 (esc A-w))
+  spc-SPC  (tap-hold 150 150 spc (layer-toggle SPC))
+  
+  pause-alt-td (tap-dance 200 (
+    (unmod (lalt) lmet ret)
+    (unmod (lalt) lmet lsft ret)
+  ))
+  
+  pause-RMETA (fork
+    (tap-hold 150 150 rmet (layer-toggle RMETA))
+    @pause-alt-td
+    (lalt)
+  )
+  
+  up-upFn2 (tap-hold 150 150 up (layer-toggle upFn2))
+
+  at-layer (multi lalt (macro 15 tab) (layer-while-held doubleSft))
+  sft-doubleSft  (tap-dance 250 (lsft @at-layer ))
+
+
+  rctl-doublerctl (tap-dance 250 (rctl S-C-M-t))
+;;  w-ctrl-close (fork up (unmod (lctl rctl) lalt w) (lctl rctl))
+
+
+
+
+)
+
+
+(deflayer base
+  prtsc f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  f13
+  grv   1    2    3    4    5    6    7    8    9    0    -    =   \  ins
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    bspc home
+  @sft-doubleSft  a    s    d    f    g    h    j    k    l    ;    '    ret end
+  @lctl-doubleLctl  z    x    c    v    b    n    m    ,    .    /    rsft @up-upFn2 del
+  @esc-close  lmet lalt           @spc-SPC        ralt  @pause-RMETA @rctl-doublerctl left down rght
+)
+
+(deflayer doubleLctl
+  prtsc    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12    _
+  grv   1    2    3    4    5    6    7    8    9    0    -    =   \  ins
+  tab   XX   XX  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX home
+  _     S-tab tab tab XX   XX   XX   XX   XX   XX   XX   XX   ret end
+  _     left   right   right   XX   XX   XX   XX   XX   XX   XX   _    up   del
+  _     _    _              _              _    _    _    left down rght
+)
+
+(deflayer doubleSft
+  prtsc    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12    _
+  grv   1    2    3    4    5    6    7    8    9    0    -    =   \  ins
+  tab   S-tab tab  tab   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX home
+  _     left right right XX   XX   XX   XX   XX   XX   XX   XX   ret end
+  _     XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _    up   del
+  _     _    _              _              _    _    _    left down rght
+)
+(deflayer SPC
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  _ ins
+  _    _  up   _   _  _    _    _  pgup  up   pgdn  _   _ del home
+  _    left down  rght rght   _    _    home  left down  rght end end end
+  _    _    _    _    _    _    _    _    _    _    _    _    _    del 
+  _    _    _              _              _    _    _    _    _    _  
+)
+(deflayer RMETA 
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  del ins
+  _    _  up  _  _  M-t   _    _    _    _   up pgup pgdn    del home
+  _    left down  rght rght _    _    _    home left down rght end end
+  _    _    _    _    _    _    _    _    _    _    _    _    _    del
+  _    _    _              _              _    _    _    _    _    _  
+)
+(deflayer upFn2
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _ ins
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _ home
+  _    _    _    _    _    _    _    _    _    _    _    _    _     end
+  _    _    _    _    _    _    _    _    _    _    _    _    _    del
+  _    _    _              _              _    _    _    _    _    _
+)

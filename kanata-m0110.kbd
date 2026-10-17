@@ -1,0 +1,144 @@
+;; kanata --check -c ~/.config/kanata/kanata-m0110.kbd && systemctl --user restart kanata
+
+
+(defcfg
+  process-unmapped-keys yes
+  linux-continue-if-no-devs-found yes
+  log-layer-changes yes
+  movemouse-smooth-diagonals yes
+  movemouse-inherit-accel-state yes
+)
+
+(defsrc
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \  pause
+  grv  q    w    e    r    t    y    u    i    o    p    [    ]    tab
+  lsft a    s    d    f    g    h    j    k    l    ;    '     bspc
+  lctl z    x    c    v    b    n    m    ,    .    /   ret f20
+       lmet lalt             spc               ralt   rsft
+)
+
+(defalias
+  ;;ALIAS
+  R right
+  L left
+  U up
+  D down
+
+  ;; COMBO 
+  sret (unmod lsft ret)
+
+  ;; LAYER - TOGGLE
+  ly1 (tap-hold 130 130 spc (layer-while-held LY_1))
+  ly2 (layer-toggle LY_2)
+  ly21 (layer-while-held LY_21)
+  ly22 (layer-while-held LY_22)
+  ly3 (layer-toggle LY_3)
+  ly4 (layer-toggle LY_4)
+
+  ;; LAYER - MULTI HOLD
+  ATabH (multi lalt (macro 15 tab) (layer-while-held LY_tabH))
+  CTabH (multi lctl (macro 15 tab) (layer-while-held LY_tabH))
+
+
+  ;; UTIL - TD
+  ATabH_td (tap-dance 180 (lctl @ATabH))
+  CTabH_td (tap-dance 180 (lctl @CTabH))
+  ec_td (tap-dance 180 (esc A-f4))
+                
+  ;; LAYER - TAP
+  lsft_td (tap-dance 160 (lsft (multi lsft lctl)))
+  RSft (tap-hold 200 200 ret rsft)
+  he_td (tap-dance 200 (home end))
+  rsft_td (tap-dance 200 ((tap-hold-press 200 200 ret rsft) @ATabH))
+
+  ;; MOUSE (입력pms , 가속발동 , 최소픽셀 , 최대 픽셀 ) 
+  mf_u (movemouse-accel-up    30 500 30 50)
+  mf_d (movemouse-accel-down  30 500 30 50)
+  mf_l (movemouse-accel-left  30 500 30 50)
+  mf_r (movemouse-accel-right 30 500 30 50)
+  m_u (movemouse-accel-up     10 1000 4 5) 
+  m_d (movemouse-accel-down   10 1000 4 5)
+  m_l (movemouse-accel-left   10 1000 4 5)
+  m_r (movemouse-accel-right  10 1000 4 5)
+  mw_u (mwheel-up   50 120)
+  mw_d (mwheel-down 50 120)
+  mside_td (tap-dance 200 (mbck mfwd))
+)
+;;  A-18: size |  C-18: positoin
+
+
+(deflayer base
+  grv 1    2    3    4    5    6    7    8    9    0    -    =    \  pause
+  @ec_td  q    w    e    r    t    y    u    i    o    p    [    ]  tab
+  lsft a    s    d    f    g    h    j    k    l    ;    '    bspc
+  @ATabH_td z    x    c    v    b    n    m    ,    .    /   ret  @ly3
+    lmet ralt             @ly1      @ly2 @ly4
+)
+/
+(deflayer LY_1 ;; KC_SPACE   
+  grv  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  f13 f14
+  esc  q    w    e    r    t    y    u    i    o   @U   pgup pgdn  @he_td
+  lsft  a    s    d    f    g    h    j    k    @L   @D   @R   del
+  @CTabH_td  z    x    c    v    b    n    m    ,    .   /   @rsft_td  lctrl
+    lmet  lalt          XX            spc   ralt      
+) 
+
+                                 
+(deflayer LY_2 ;; MOUSE 
+  grv 1    2    3    4    5    6    7    XX    XX    XX     XX      XX  XX   prtsc
+  esc   q    w    e    r    t    y    u    XX    XX    @m_u   @mw_u   @mw_d   f17
+  lsft  a    s    d    f    g    h    j    XX    @m_l  @m_d   @m_r    @ly21
+  lctl  z    x    c    v    b    n    m    mbck  mfwd   _     mlft mrgt   
+    lmet  lalt       mlft             XX   f18
+) 
+
+(deflayer LY_21 ;; MOUSE FASTER
+  prtsc 1     _    _    _    _    _    _    _    _     _      _    _    _     _
+  esc   q     _    _    _    _    _    _    _    _     @mf_u  _    _    f18 
+  lsft  a     _    _    _    _    _    _    _    @mf_l @mf_d  @mf_r  XX
+  lctl  z     _    _    _    _    _    _    _    _     _      _    _
+    lmet  lalt       mlft              XX     _
+) 
+
+(deflayer LY_22 ;; MOUSE UTIL   C-f18
+  prtsc  1    _    _    _    _    _    _    _    _    _        _       _    _    _
+  esc   q    _    _    _    _    _    _    _    _    @mw_u    _   _    f18
+  lsft  a    _    _    _    _    _    _    _    mbck @mw_d   mfwd _
+  lctl  z    _    _    _    _    _    _    _    _    _   XX    XX
+    lmet  lalt       mlft              XX     _
+)
+
+
+(deflayer LY_3 ;; MEDIA
+  prtsc   1    2    3    4    5    6    7    8    9    0     -    =    \   _
+  esc    q    w    M-e  r    M-t  y    u    i    o    prtsc volu  vold   tab         
+  lsft   a    s    d    f    g    h    j    k    l    next  prev  mute
+  lctl   _    _    _    _    _    _    _    ,    .    /    @RSft  XX
+    lmet   lalt       pp               _    _ 
+)
+
+(deflayer LY_4 ;; NUMBER KEY
+  f13   f14   f15    f16   f17  f18  f19   f20   f21  f22   f23   f24    =     \   f18
+  esc   1    2    3    r    t    y    u    i     o     p    [   ]   tab
+  lsft  4    5    6    f    g    h    j    k    @U     ;     '     bspc
+  lctl  7    8    9    v    b    n    m    @L   @D     @R   ret del  
+        ret  0               spc              lsft     XX
+) 
+
+(deflayer LY_tabH
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _   C-w   up   _    _    _    _    _    _    _    _    _    _    _
+  _  left  down right _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+       _    _                _                 _    _
+)
+
+
+(deflayer LY_42 ;; HYPER
+  C-A-S-M-grv C-A-S-M-1 C-A-S-M-2 C-A-S-M-3 C-A-S-M-4 C-A-S-M-5 C-A-S-M-6 C-A-S-M-7 C-A-S-M-8 C-A-S-M-9 C-A-S-M-0 C-A-S-M-- C-A-S-M-= C-A-S-M-\ prtsc
+  _   _    _    _  C-A-S-M-r C-A-S-M-t C-A-S-M-y C-A-S-M-u S-f16 C-A-S-M-o C-A-S-M-p S-f17 C-f17 A-f17
+  _   _    _    _  C-A-S-M-f C-A-S-M-g C-A-S-M-h C-A-S-M-j C-A-S-M-k C-A-S-M-l C-A-f18 C-S-f18 M-f18
+  _    C-A-S-M-z C-A-S-M-x C-A-S-M-c C-A-S-M-v C-A-S-M-b C-A-S-M-n C-A-S-M-m C-A-S-M-, C-A-S-M-. C-A-S-M-/ A-f18 _
+       C-A-S-M-f13 C-A-S-M-f14 XX S-f18 C-f18
+)
+
