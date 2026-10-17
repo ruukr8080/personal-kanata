@@ -1,6 +1,5 @@
 ;; kanata --check -c ~/.config/kanata/kanata-m0110.kbd && systemctl --user restart kanata
 
-
 (defcfg
   process-unmapped-keys yes
   linux-continue-if-no-devs-found yes
