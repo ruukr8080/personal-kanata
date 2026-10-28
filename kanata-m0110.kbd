@@ -51,14 +51,14 @@
   rsft_td (tap-dance 200 ((tap-hold-press 200 200 ret rsft) @ATabH))
 
   ;; MOUSE (입력pms , 가속발동 , 최소픽셀 , 최대 픽셀 ) 
-  mf_u (movemouse-accel-up    30 500 30 50)
-  mf_d (movemouse-accel-down  30 500 30 50)
-  mf_l (movemouse-accel-left  30 500 30 50)
-  mf_r (movemouse-accel-right 30 500 30 50)
-  m_u (movemouse-accel-up     10 1000 4 5) 
-  m_d (movemouse-accel-down   10 1000 4 5)
-  m_l (movemouse-accel-left   10 1000 4 5)
-  m_r (movemouse-accel-right  10 1000 4 5)
+  mf_u (movemouse-accel-up    50 3000 500 500)
+  mf_d (movemouse-accel-down  50 3000 500 500)
+  mf_l (movemouse-accel-left  50 3000 500 500)
+  mf_r (movemouse-accel-right 250 3000 500 500)
+  m_u (movemouse-accel-up     5 1000 2 5) 
+  m_d (movemouse-accel-down   5 1000 2 5)
+  m_l (movemouse-accel-left   5 1000 2 5)
+  m_r (movemouse-accel-right  5 1000 2 5)
   mw_u (mwheel-up   50 120)
   mw_d (mwheel-down 50 120)
   mside_td (tap-dance 200 (mbck mfwd))
@@ -73,7 +73,7 @@
   @ATabH_td z    x    c    v    b    n    m    ,    .    /   ret  @ly3
     lmet ralt             @ly1      @ly2 @ly4
 )
-/
+
 (deflayer LY_1 ;; KC_SPACE   
   grv  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  f13 f14
   esc  q    w    e    r    t    y    u    i    o   @U   pgup pgdn  @he_td
