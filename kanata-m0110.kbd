@@ -84,7 +84,7 @@
 
                                  
 (deflayer LY_2 ;; MOUSE 
-  grv 1    2    3    4    5    6    7    XX    XX    XX     XX      XX  XX   prtsc
+  grv 1    2    3    4    5    6    7    XX    XX    S-f18    M-f18   A-f18   C-f18   prtsc
   esc   q    w    e    r    t    y    u    XX    XX    @m_u   @mw_u   @mw_d   f17
   lsft  a    s    d    f    g    h    j    XX    @m_l  @m_d   @m_r    @ly21
   lctl  z    x    c    v    b    n    m    mbck  mfwd   _     mlft mrgt   
