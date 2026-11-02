@@ -1,0 +1,83 @@
+;; kanata --check -c ~/config/kanata/kanata-m0110_hypland.kbd && systemctl restart kanata
+
+(defcfg
+  danger-enable-cmd yes
+  process-unmapped-keys yes
+  linux-continue-if-no-devs-found yes
+  log-layer-changes yes
+  movemouse-smooth-diagonals yes
+  movemouse-inherit-accel-state yes
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    \  esc
+  bspc  q    w    e    r    t    y    u  up right    p    [    ]   tab
+  lsft a    s    d    f    g   h left down    l    ;    '   ret
+  lctl z    x    c    v    b    n    m    ,    .    /  rctl pause
+     lmet lalt             spc               ralt  slck
+)
+
+(defalias
+  ;; MIKE
+  micu (cmd wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+)
+  micd (cmd wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-)
+  mict (cmd wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle)
+
+
+  ;; LAYER - TOGGLE
+  ly1  (tap-hold 130 130 ret (layer-while-held LY_1))
+  ly1s (tap-hold 130 130 spc (layer-while-held LY_1))
+  ly2  (tap-hold 130 130 tab (layer-while-held LY_2))
+
+
+  ;; MOUSE (입력pms , 가속발동 , 최소픽셀 , 최대 픽셀 )
+  mu (movemouse-accel-up    3 500 2 3)
+  md (movemouse-accel-down  3 500 2 3)
+  ml (movemouse-accel-left  3 500 2 3)
+  mr (movemouse-accel-right 3 500 2 3)
+  smu (movemouse-accel-up    5 500 1 1)
+  smd (movemouse-accel-down  5 500 1 1)
+  sml (movemouse-accel-left  5 500 1 1 )
+  smr (movemouse-accel-right 5 500 1 1)
+  mwu (mwheel-up   50 120)
+  mwd (mwheel-down 50 120)
+
+  ;;ALIAS
+  R right
+  L left
+  U up
+  D down
+  prt prtsc
+  PU pgup
+  PD pgdn
+  Ma M-a
+  T M-ret
+  eMq (tap-dance 200 (esc M-q))
+  sret (tap-hold 130 130 ret lsft)
+  alt (tap-hold 230 200  ralt lalt )
+  sp rmet
+  HD (tap-dance 130 (home end))
+)
+
+(deflayer base    ;; BASE
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
+  bspc  q    w    e    r    t    y    u    i    o    p   [    ]  tab
+  @sret   a    s    d    f    g    h    j    k    l    ;    '   ret
+  lctl  z    x    c    v    b    n    m    ,    .    /   rmet  del
+    @alt  lmet        spc           _   @ly1
+)
+
+(deflayer LY_1     ;; FEAT
+  @eMq 1    2    3    4    5    6    7    8    9    0    -    =    \   f13
+  bspc  q w e _ _ _  @mwu         @U          @PU   del  vold  volu   @prt
+  @sret a s d _ _ @HD             @L @R        @ly2   rmet @eMq pp
+   lctl z x c _ _ @mwd                    @D         @PD   @mict @micd  @micu  mute
+        @alt  _   ret   _  XX
+)
+(deflayer LY_2     ;; FEAT - MOUSE
+  _  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 _ _
+  _ _ _ _ _ _ _ _                     @mu    XX  mbck _ _ _
+  _ _ _ _ _ _ _                 @ml  @mr  _ mrgt _ _
+  _ _ _ _ _ _ _                      @md   mfwd   _ _ _ _
+  _ _  mlft _ XX
+)
