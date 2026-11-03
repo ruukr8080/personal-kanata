@@ -25,20 +25,25 @@
 
 
   ;; LAYER - TOGGLE
-  ly1  (tap-hold 130 130 ret (layer-while-held LY_1))
-  ly1s (tap-hold 130 130 spc (layer-while-held LY_1))
-  ly2  (tap-hold 130 130 tab (layer-while-held LY_2))
+  ly  (layer-switch base)
+  lyb  (tap-hold 130 130 ret (layer-while-held LYB))
+  lyr  (tap-hold 130 130 ret (layer-while-held LYR))
+  lyr2  (tap-hold 130 130 ret (layer-while-held LYR2))
+  ly1  (tap-hold 130 130 ret (layer-while-held LY1))
+  ly2 (tap-hold 130 130 spc (layer-while-held LY_2))
+  ly2t  (layer-switch LY_2)
+  ly2s (tap-hold 130 130 _ (layer-while-held LY_2s))
 
 
   ;; MOUSE (입력pms , 가속발동 , 최소픽셀 , 최대 픽셀 )
-  mu (movemouse-accel-up    3 500 2 3)
-  md (movemouse-accel-down  3 500 2 3)
-  ml (movemouse-accel-left  3 500 2 3)
-  mr (movemouse-accel-right 3 500 2 3)
-  smu (movemouse-accel-up    5 500 1 1)
-  smd (movemouse-accel-down  5 500 1 1)
-  sml (movemouse-accel-left  5 500 1 1 )
-  smr (movemouse-accel-right 5 500 1 1)
+  mu (movemouse-accel-up    3 800 2 3)
+  md (movemouse-accel-down  3 800 2 3)
+  ml (movemouse-accel-left  3 800 2 3)
+  mr (movemouse-accel-right 3 800 2 3)
+  smu (movemouse-accel-up    5 3000 1 1)
+  smd (movemouse-accel-down  5 3000 1 1)
+  sml (movemouse-accel-left  5 3000 1 1 )
+  smr (movemouse-accel-right 5 3000 1 1)
   mwu (mwheel-up   50 120)
   mwd (mwheel-down 50 120)
 
@@ -47,37 +52,68 @@
   L left
   U up
   D down
-  prt prtsc
+  prt (tap-hold 200 200  prtsc f14)
   PU pgup
   PD pgdn
   Ma M-a
-  T M-ret
-  eMq (tap-dance 200 (esc M-q))
+  eMq (tap-dance 200 (esc M-w))
   sret (tap-hold 130 130 ret lsft)
   alt (tap-hold 230 200  ralt lalt )
-  sp rmet
-  HD (tap-dance 130 (home end))
+  HD (tap-dance 150 (home end))
 )
 
 (deflayer base    ;; BASE
   grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
   bspc  q    w    e    r    t    y    u    i    o    p   [    ]  tab
   @sret   a    s    d    f    g    h    j    k    l    ;    '   ret
-  lctl  z    x    c    v    b    n    m    ,    .    /   rmet  del
-    @alt  lmet        spc           _   @ly1
+  lctl  z    x    c    v    b    n    m    ,    .    /   del  @lyr
+       @alt  lmet        spc     rmet   @ly1
 )
 
-(deflayer LY_1     ;; FEAT
-  @eMq 1    2    3    4    5    6    7    8    9    0    -    =    \   f13
-  bspc  q w e _ _ _  @mwu         @U          @PU   del  vold  volu   @prt
-  @sret a s d _ _ @HD             @L @R        @ly2   rmet @eMq pp
-   lctl z x c _ _ @mwd                    @D         @PD   @mict @micd  @micu  mute
-        @alt  _   ret   _  XX
+(deflayer LY1     ;; FEAT
+  @eMq  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10  f11  f12  f13  @prt
+  del  q w e _ _ _        @PU           @U                lmet @mwd @mwu  f24   tab
+  @sret a s d _ _        @PD       @L  @R             lctrl lalt lsft  ret
+   lctl z x c _ _             @HD           @D              lsft volu vold bspc  pp
+        @alt  lmet   @ly2   @lyb  XX
 )
+
 (deflayer LY_2     ;; FEAT - MOUSE
-  _  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 _ _
-  _ _ _ _ _ _ _ _                     @mu    XX  mbck _ _ _
-  _ _ _ _ _ _ _                 @ml  @mr  _ mrgt _ _
-  _ _ _ _ _ _ _                      @md   mfwd   _ _ _ _
-  _ _  mlft _ XX
+  @eMq  f11 f12 f13 f14 f15 f16 f17 f18  f19 f20 f21 f22 f23 @prt
+  del  q w e _  t y        @PU             @mu         lctrl @mwd @mwu  _ _
+  mlft  a s d _ _           @PD          @ml  @mr        mlft  ralt _ ret
+  lctrl   z x c _ _        mrgt        @md            vold volu  _ _   @ly
+       @alt mrgt   _  _ @ly2s
 )
+
+(deflayer LY_2s     ;; FEAT - MOUSE Slow
+  @eMq  f11 f12 f13 f14 f15 f16 f17 f18  f19 f20 f21 f22 f23 @prt
+  del  q w e r t y       @PU               @smu    lctl @mwd @mwu   _ _
+  mlft  a s d f _         @PD           @sml  @smr    mlft  @alt _ ret
+  lctrl   z x c v     _     mrgt           @smd       _ _  _ _   @ly
+      @alt mrgt  _  _ XX
+)
+
+(deflayer LYB     ;; BRIETGE
+  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX
+  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX
+  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX
+  XX  XX  XX  XX  XX  XX  XX XX  XX  XX  XX  XX  @lyr2
+  XX  XX  @ly2s XX  XX
+)
+
+(deflayer LYR    ;; REVERSE
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
+  bspc  q    w    e    r    t    y    u    i    C-r    C-e   C-w    C-q  tab
+  @sret   '    ;    l    k    j    h    g    C-f    C-d    C-s   C-a    rsft
+  lctl  /    .    ,    m    n    b    n   C-c  C-v   C-z  C-x    lalt
+       @alt  lmet        pp     @lyb   XX
+)
+(deflayer LYR2    ;; REVERSE2
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
+  bspc  q    w    e    r    t    y    u    i    M-r    M-e   M-w    M-q  tab
+  @sret   '    ;    l    k    j    h    g    M-f    M-d    M-s   M-a    M-S-a
+  lctl  /    .    ,    m    n    b    n   M-v  M-c    M-z   M-x    C-z
+       @alt  lmet        M-v     M-c   XX
+)
+
