@@ -60,6 +60,7 @@
   sret (tap-hold 130 130 ret lsft)
   alt (tap-hold 230 200  ralt lalt )
   HD (tap-dance 150 (home end))
+  etd (tap-dance 300  grv grv grv  (home end))
 )
 
 (deflayer base    ;; BASE
@@ -83,7 +84,7 @@
   del  q w e _  t y        @PU             @mu         lctrl @mwd @mwu  _ _
   mlft  a s d _ _           @PD          @ml  @mr        mlft  ralt _ ret
   lctrl   z x c _ _        mrgt        @md            vold volu  _ _   @ly
-       @alt mrgt   _  _ @ly2s
+       @alt mrgt   mlft  _ @ly2s
 )
 
 (deflayer LY_2s     ;; FEAT - MOUSE Slow
