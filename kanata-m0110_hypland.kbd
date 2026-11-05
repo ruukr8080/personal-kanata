@@ -25,14 +25,16 @@
 
 
   ;; LAYER - TOGGLE
-  ly  (layer-switch base)
+  lybase  (layer-switch base)
   lyb  (tap-hold 130 130 ret (layer-while-held LYB))
   lyr  (tap-hold 130 130 ret (layer-while-held LYR))
+
+  lyspc (tap-hold 130 130 spc (layer-while-held LY))
+  lyret (tap-hold 130 130 ret (layer-while-held LY))
   lyr2  (tap-hold 130 130 ret (layer-while-held LYR2))
-  ly1  (tap-hold 130 130 ret (layer-while-held LY1))
-  ly2 (tap-hold 130 130 spc (layer-while-held LY_2))
+  ly2 (tap-hold 130 130  mlft (layer-while-held LY_2))
   ly2t  (layer-switch LY_2)
-  ly2s (tap-hold 130 130 _ (layer-while-held LY_2s))
+  ly2s (tap-hold-release 180 180 mlft (layer-while-held LY_2s))
 
 
   ;; MOUSE (입력pms , 가속발동 , 최소픽셀 , 최대 픽셀 )
@@ -48,6 +50,7 @@
   mwd (mwheel-down 50 120)
 
   ;;ALIAS
+  super rmet
   R right
   L left
   U up
@@ -56,34 +59,40 @@
   PU pgup
   PD pgdn
   Ma M-a
-  eMq (tap-dance 200 (esc M-w))
+  eMq (tap-dance 200 (esc M-q))
   sret (tap-hold 130 130 ret lsft)
   alt (tap-hold 230 200  ralt lalt )
+  ;; salt(tap-hold 130 130 ralt lsft)
+  alft(tap-hold-release 140 140 ralt lsft)
+  ;; calt (tap-hold-release 200 200  lctl)
+  lcm(tap-hold-release 150 150 mlft rmet)
+  w (tap-hold 150 150  ralt lalt )
   HD (tap-dance 150 (home end))
-  etd (tap-dance 300  grv grv grv  (home end))
-)
+  ;;  etd (tap-dance 300  300 300 300 grv grv grv  (esc))
+
+  )
 
 (deflayer base    ;; BASE
   grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
   bspc  q    w    e    r    t    y    u    i    o    p   [    ]  tab
-  @sret   a    s    d    f    g    h    j    k    l    ;    '   ret
+  @alft   a    s    d    f    g    h    j    k    l    ;    '   ret
   lctl  z    x    c    v    b    n    m    ,    .    /   del  @lyr
-       @alt  lmet        spc     rmet   @ly1
+       @alt  lmet        @lyspc     @lcm   @ly1
 )
 
-(deflayer LY1     ;; FEAT
+(deflayer LY     ;; FEAT
   @eMq  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10  f11  f12  f13  @prt
   del  q w e _ _ _        @PU           @U                lmet @mwd @mwu  f24   tab
-  @sret a s d _ _        @PD       @L  @R             lctrl lalt lsft  ret
-   lctl z x c _ _             @HD           @D              lsft volu vold bspc  pp
+  @alft a s d _ _        @PD       @L  @R             lctrl lalt lsft  ret
+   lctl z x c _ _             @HD           @D              lsft vold volu bspc  pp
         @alt  lmet   @ly2   @lyb  XX
 )
 
 (deflayer LY_2     ;; FEAT - MOUSE
   @eMq  f11 f12 f13 f14 f15 f16 f17 f18  f19 f20 f21 f22 f23 @prt
   del  q w e _  t y        @PU             @mu         lctrl @mwd @mwu  _ _
-  mlft  a s d _ _           @PD          @ml  @mr        mlft  ralt _ ret
-  lctrl   z x c _ _        mrgt        @md            vold volu  _ _   @ly
+  @alft a s d _ _           @PD          @ml  @mr        mlft  ralt _ ret
+  lctrl   z x c _ _        mrgt        @md            vold volu  _ _   @lybase
        @alt mrgt   mlft  _ @ly2s
 )
 
@@ -91,7 +100,7 @@
   @eMq  f11 f12 f13 f14 f15 f16 f17 f18  f19 f20 f21 f22 f23 @prt
   del  q w e r t y       @PU               @smu    lctl @mwd @mwu   _ _
   mlft  a s d f _         @PD           @sml  @smr    mlft  @alt _ ret
-  lctrl   z x c v     _     mrgt           @smd       _ _  _ _   @ly
+  lctrl   z x c v     _     mrgt           @smd       _ _  _ _   @lybase
       @alt mrgt  _  _ XX
 )
 
@@ -106,14 +115,14 @@
 (deflayer LYR    ;; REVERSE
   grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
   bspc  q    w    e    r    t    y    u    i    C-r    C-e   C-w    C-q  tab
-  @sret   '    ;    l    k    j    h    g    C-f    C-d    C-s   C-a    rsft
-  lctl  /    .    ,    m    n    b    n   C-c  C-v   C-z  C-x    lalt
+  @alft    '    ;    l    k    j    h    g    C-f    C-d    C-s   C-a    rsft
+  lctl  /    .    ,    m    n    b    n   C-v C-c   C-x  C-z    lalt
        @alt  lmet        pp     @lyb   XX
 )
 (deflayer LYR2    ;; REVERSE2
   grv   1    2    3    4    5    6    7    8    9    0    -    =    \  @eMq
   bspc  q    w    e    r    t    y    u    i    M-r    M-e   M-w    M-q  tab
-  @sret   '    ;    l    k    j    h    g    M-f    M-d    M-s   M-a    M-S-a
+  @alft    '    ;    l    k    j    h    g    M-f    M-d    M-s   M-a    M-S-a
   lctl  /    .    ,    m    n    b    n   M-v  M-c    M-z   M-x    C-z
        @alt  lmet        M-v     M-c   XX
 )
